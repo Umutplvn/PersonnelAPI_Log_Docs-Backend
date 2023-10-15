@@ -31,27 +31,30 @@ dbConnection()
 // Middlewares:
 
 // Logging:
-// npm i morgan
+// npm i morgan     //* log kaydini tutacak sistem
 // https://expressjs.com/en/resources/middleware/morgan.html
 
 const morgan = require('morgan')
 // console.log(morgan)
-// app.use(morgan('combined'))
-// app.use(morgan('IP:remote-addr TIME:[:date[clf]] REQ:":method :url HTTP/:http-version" RES::status :res[content-length] APP:":user-agent"'))
+app.use(morgan('combined')) //* tiny-short-default-common-combined secenekleri ile detaylari gorebiliriz => cikti  //::ffff:127.0.0.1 - - [15/Oct/2023:02:31:11 +0000] "GET / HTTP/1.1" 200 259 "-" "PostmanRuntime/7.33.0" 
 
-// //? Write logs to file:
+// app.use(morgan('IP:remote-addr TIME:[:date[clf]] REQ:":method :url HTTP/:http-version" RES::status :res[content-length] APP:":user-agent"')) //method isimleri haric baslikalri degistirerek kendimize ozgu log kaydi alabiliriz
+
+//? Write logs to file: all logs together in one file
 // const fs = require('node:fs')
 // app.use(morgan('combined', {
-//     stream: fs.createWriteStream('./access.log', { flags: 'a' })
+//     stream: fs.createWriteStream('./access.log', { flags: 'a' }) //flags: 'a' = dosya yoksa olustur eger varsa ustune yaz-console yerine bunlari access.log a yazdiriyor
 // }))
 
 //? Write logs to file - day by day:
 const fs = require('node:fs')
 const now = new Date()
 const today = now.toISOString().split('T')[0]
+
 app.use(morgan('combined', {
     stream: fs.createWriteStream(`./logs/${today}.log`, { flags: 'a' })
 }))
+
 
 // Accept JSON:
 app.use(express.json())
@@ -107,17 +110,20 @@ app.use(require('./src/middlewares/findSearchSortPage'))
 // })
 app.use(require('./src/middlewares/authentication'))
 
-// Documentation Middlewares:
-// Swagger-UI:
-// npm i swagger-ui-express
-const swaggerUi = require('swagger-ui-express')
+//! Documentation Middlewares:
+//? Swagger-UI:
+
+// npm i swagger-ui-express //swagger.js de elde ettigimiz swaggerJson veriyi alip swaggerUi yapacak
+const swaggerUi = require('swagger-ui-express') 
 const swaggerJson = require('./swagger.json')
 // Parse/Run swagger.json and publish on any URL:
 app.use('/docs/swagger', swaggerUi.serve, swaggerUi.setup(swaggerJson, { swaggerOptions: { persistAuthorization: true } }))
-// Redoc:
+//app.use(kullanilacak adres: http:127.0.0.1:8000/docs/swagger, swaggerUi calistir, swagger jsonlari donustur, opsiyon) =>ust satirin aciklamasi
+
+//? Redoc:
 // npm i redoc-express
 const redoc = require('redoc-express')
-app.use('/docs/json', (req, res) => {
+app.use('/docs/json', (req, res) => {       // json veriyi http:/127.0.0.1.8000:/redoc/docs/json url si ne tasir
     res.sendFile('swagger.json', { root: '.' })
 })
 app.use('/docs/redoc', redoc({
@@ -160,7 +166,7 @@ app.all('/', (req, res) => {
                 redoc: 'http://127.0.0.1:8000/docs/redoc',
                 json: 'http://127.0.0.1:8000/docs/json',
             },
-            contact: 'clarusway.com'
+            contact: 'umutpehlivan2078@gmail.com'
         },
         // session: req.session,
         isLogin: req.isLogin,

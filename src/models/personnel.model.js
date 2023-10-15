@@ -18,8 +18,8 @@ const PersonnelSchema = new mongoose.Schema({
         trim: true,
         required: true,
         unique: true,
-        dataType: 'string',
-        exampleUsing: "username: test"
+        dataType: 'string', 
+        exampleUsing: "username: test" //autogenden direkt olarak bu modeli cagirdigimiz icin ornek olabilmesi icin bu veriyi buraya ekledik
     },
 
     password: {

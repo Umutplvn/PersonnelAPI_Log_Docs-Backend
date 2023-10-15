@@ -6,8 +6,9 @@ require('dotenv').config()
 const HOST = process.env?.HOST || '127.0.0.1'
 const PORT = process.env?.PORT || 8000
 /* ------------------------------------------------------- */
-// npm i swagger-autogen
+// npm i swagger-autogen	//routerlari ziyaret ederek oradaki get post vs komutlarini yakalamaya yariyor (.all komutunu yakalamaz!!!)
 // https://swagger-autogen.github.io/docs/
+// Bir swagger(redoc tarzi dokuman) olusturuabilmek icin autogen yardimiyla asagidaki yollari uyguluyoruz
 /* ------------------------------------------------------- *
 const options = {
 	openapi:          <string>,     // Enable/Disable OpenAPI.                        By default is null
@@ -20,9 +21,10 @@ const options = {
 };
 /* ------------------------------------------------------- */
 
-// const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' })
-const swaggerAutogen = require('swagger-autogen')()
+// const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' }) yukaridaki ayarlari kullanabiliriz ama en iyisi asagidaki sekliyle kullanmak
+const swaggerAutogen = require('swagger-autogen')()	// orefere ettigimiz dosyadaki get post vs (.all haric) komutlari taraadi ve bunlardan swaggerJson dokuman olusturdu sonra indexe gittik ve orada bunuda donusturduk
 const packageJson = require('./package.json')
+
 
 const document = {
 	// info: {
@@ -54,7 +56,10 @@ const document = {
 		}
 	},
 	security: [{ "JWT": true }],
-	definition: {
+
+
+	//* Swaggerda modeller bolumunu olusturmamiza yarar
+	definition: {	
 		"/auth/login": {
 			username: {
 				type: "String",
@@ -78,13 +83,13 @@ const document = {
 		// 		required: true
 		// 	}
 		// },
-		"Department": require('./src/models/department.model').schema.obj,
-		"Personnel": require('./src/models/personnel.model').schema.obj,
+		"Department": require('./src/models/department.model').schema.obj,	// yukarida oldugu gibi tek tek modeli yazmaktansa bu sekilde kisa yoldanda pratik olarak cagirabiliriz./ Guncellemeside kolay
+		"Personnel": require('./src/models/personnel.model').schema.obj
 	}
 };
 
 const routes = ['./index.js']
-const outputFile = './swagger.json'
+const outputFile = './swagger.json'	//swagger dosyasinin yolunu olustur
 
 // Create JSON file:
-swaggerAutogen(outputFile, routes, document)
+swaggerAutogen(outputFile, routes, document)	//outputfile e yazdir, routelari tara, document ayarlarini kullan //bundan sonra node swagger.js yazarak js dosyasi olusturulur

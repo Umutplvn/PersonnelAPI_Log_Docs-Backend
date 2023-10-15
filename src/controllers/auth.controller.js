@@ -13,12 +13,12 @@ module.exports = {
 
     login: async (req, res) => {
         /*
-            #swagger.tags = ['Authentication']
+            #swagger.tags = ['Authentication']  //!kare swagger seklinda yazdigimiz yorumlari swagger yakaliyor, bunlari google swagger dokumanimizda gorebiliriz
             #swagger.summary = 'JWT: Login'
             #swagger.description = 'Login with username and password'
-            _swagger.deprecated = true
-            _swagger.ignore = true
-            #swagger.parameters['body'] = {
+            _swagger.deprecated = true  //swagger dosyasinda bu yazinin ustunu cizerek artik kullanimda degil dememize yarar tabiki basinda _ degil # olmasi lazim 
+            _swagger.ignore = true  // basinda _ degilde # olursa swaggerde gorunmez
+            #swagger.parameters['body'] = {     //buradaki body req.body de ki body ile ayni. Kullanicaya bu bilgileri yolla diye mesaj yazmamiza yarar
                 in: 'body',
                 required: true,
                 schema: {

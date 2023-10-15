@@ -35,26 +35,6 @@
         ],
         "summary": "JWT: Login",
         "description": "Login with username and password",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string",
-                  "example": "test"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "1234"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -311,9 +291,13 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Personnel"
+              "type": "object",
+              "properties": {
+                "departmentId": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
@@ -727,7 +711,7 @@
             },
             "default": {
               "type": "number",
-              "example": 1697140454257
+              "example": 1697342700017
             }
           }
         }

@@ -39,7 +39,7 @@ module.exports = {
             #swagger.parameters['body'] = {
                 in: 'body',
                 required: 'true',
-                schema: {
+                schema: {   //modeli uzun uzun manuel olarak yazmaktansa asagidaki gibide cagirabiliriz
                     $ref: '#/definitions/Personnel'
                 }
             }
